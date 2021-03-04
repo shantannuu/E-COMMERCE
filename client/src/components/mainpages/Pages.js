@@ -4,7 +4,7 @@ import Products from './products/Products'
 import DetailProduct from './detailProduct/DetailProduct'
 import Login from './auth/Login'
 import Register from './auth/Register'
-
+import Cart from './cart/Cart'
 
 import NotFound from './utils/not_found/NotFound'
 
@@ -24,6 +24,8 @@ function Pages() {
 
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
+
+            <Route path="/cart" exact component={Cart} />
 
             <Route path="*" exact component={NotFound} />
         </Switch>
