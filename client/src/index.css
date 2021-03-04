@@ -47,3 +47,6 @@ button{
 @import url("./components/mainpages/auth/login.css");
 
 
+@import url('./components/mainpages/cart/cart.css');
+
+@import url('./components/mainpages/utils/not_found/notFound.css');

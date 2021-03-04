@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { GlobalState } from '../../../GlobalState'
 import { Link } from 'react-router-dom'
 import ProductItem from '../utils/productItem/ProductItem';
-import './cart.css'
+
 function Cart() {
     const state = useContext(GlobalState);
     const [cart] = state.userAPI.cart;
