@@ -5,8 +5,11 @@ import DetailProduct from './detailProduct/DetailProduct'
 import Login from './auth/Login'
 import Register from './auth/Register'
 import Cart from './cart/Cart'
+import OrderDetail from './history/OrderDetails'
 
 import NotFound from './utils/not_found/NotFound'
+
+import History from './history/History'
 
 
 import { GlobalState } from '../../GlobalState'
@@ -27,6 +30,9 @@ function Pages() {
             <Route path="/register" exact component={isLogged ? NotFound : Register} />
 
             <Route path="/cart" exact component={Cart} />
+
+            <Route path="/history" exact component={isLogged ? History : NotFound} />
+            <Route path="/history/:id" exact component={isLogged ? OrderDetail : NotFound} />
 
             <Route path="*" exact component={NotFound} />
         </Switch>
