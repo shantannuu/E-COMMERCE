@@ -24,7 +24,7 @@ function Cart() {
 
     }, [cart])
 
-    const addTOCart = async () => {
+    const addTOCart = async (cart) => {
         await axios.patch('/user/addCart', { cart }, {
             headers: { Authentication: token }
         })
@@ -37,7 +37,7 @@ function Cart() {
                 item.quantity += 1
             }
             setCart([...cart])
-            addTOCart()
+            addTOCart(cart)
         });
     }
 
@@ -47,7 +47,7 @@ function Cart() {
                 item.quantity === 1 ? item.quantity = 1 : item.quantity -= 1
             }
             setCart([...cart])
-            addTOCart()
+            addTOCart(cart)
         });
     }
 
@@ -59,13 +59,23 @@ function Cart() {
                 }
             })
             setCart([...cart])
-            addTOCart()
+            addTOCart(cart)
         }
 
     }
 
     const tranSuccess = async (payment) => {
         console.log(payment)
+        const { paymentID, address } = payment;
+
+        await axios.post('/api/payment', { cart, paymentID, address }, {
+            headers: { Authentication: token }
+        })
+
+        setCart([])
+        addTOCart([])
+        alert("You Have successfully placed an order")
+
     }
 
     if (cart.length === 0)
