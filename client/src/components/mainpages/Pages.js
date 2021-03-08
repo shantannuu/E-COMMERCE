@@ -11,6 +11,7 @@ import NotFound from './utils/not_found/NotFound'
 
 import History from './history/History'
 import Category from './categories/Categories'
+import CreateProduct from './createProduct/CreateProduct'
 
 import { GlobalState } from '../../GlobalState'
 
@@ -35,6 +36,7 @@ function Pages() {
             <Route path="/history/:id" exact component={isLogged ? OrderDetail : NotFound} />
 
             <Route path="/category" exact component={isAdmin ? Category : NotFound} />
+            <Route path="/create_product" exact component={isAdmin ? CreateProduct : NotFound} />
 
             <Route path="*" exact component={NotFound} />
         </Switch>

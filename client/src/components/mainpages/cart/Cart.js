@@ -10,7 +10,7 @@ function Cart() {
     const [cart, setCart] = state.userAPI.cart;
     const [total, setTotal] = useState(0)
     const [token] = state.token
-    const [callback, setCallback] = state.userAPI.callback
+
     console.log(cart)
 
 
@@ -76,7 +76,7 @@ function Cart() {
         setCart([])
         addTOCart([])
         alert("You Have successfully placed an order")
-        setCallback(!callback)
+
     }
 
     if (cart.length === 0)

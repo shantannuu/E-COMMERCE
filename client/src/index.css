@@ -54,3 +54,5 @@ button{
 @import url('./components/mainpages/history/history.css');
 
 @import url('./components/mainpages/categories/categories.css');
+
+@import url('./components/mainpages/createProduct/createProduct.css');

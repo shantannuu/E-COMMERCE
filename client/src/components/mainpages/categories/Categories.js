@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { GlobalState } from '../../../GlobalState'
 function Categories() {
     const state = useContext(GlobalState);
-    const [categories, setCategories] = state.categoryAPI.categories;
+    const [categories] = state.categoryAPI.categories;
     const [category, setCategory] = useState('')
     const [token] = state.token
     const [callback, setCallback] = state.categoryAPI.callback
@@ -18,13 +18,14 @@ function Categories() {
                 const res = await axios.put(`/api/category/${id}`, { name: category }, {
                     headers: { Authentication: token }
                 })
+                alert(res.data.msg)
             } else {
                 const res = await axios.post('/api/category', { name: category }, {
                     headers: { Authentication: token }
                 })
                 // console.log(res)
                 // alert(res.data.msg)
-
+                alert(res.data.msg)
             }
             setOnEdit(false)
             setCategory('');
@@ -45,6 +46,7 @@ function Categories() {
             const res = await axios.delete(`/api/category/${id}`, {
                 headers: { Authentication: token }
             })
+            alert(res.data.msg)
             setCallback(!callback)
         } catch (err) {
             alert(err.response.data.msg)
