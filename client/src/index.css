@@ -52,3 +52,5 @@ button{
 @import url('./components/mainpages/utils/not_found/notFound.css');
 
 @import url('./components/mainpages/history/history.css');
+
+@import url('./components/mainpages/categories/categories.css');

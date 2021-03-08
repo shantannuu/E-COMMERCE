@@ -10,7 +10,7 @@ import OrderDetail from './history/OrderDetails'
 import NotFound from './utils/not_found/NotFound'
 
 import History from './history/History'
-
+import Category from './categories/Categories'
 
 import { GlobalState } from '../../GlobalState'
 
@@ -18,7 +18,7 @@ import { GlobalState } from '../../GlobalState'
 function Pages() {
     const state = useContext(GlobalState);
     const [isLogged] = state.userAPI.isLogged;
-
+    const [isAdmin] = state.userAPI.isAdmin;
 
 
     return (
@@ -33,6 +33,8 @@ function Pages() {
 
             <Route path="/history" exact component={isLogged ? History : NotFound} />
             <Route path="/history/:id" exact component={isLogged ? OrderDetail : NotFound} />
+
+            <Route path="/category" exact component={isAdmin ? Category : NotFound} />
 
             <Route path="*" exact component={NotFound} />
         </Switch>
