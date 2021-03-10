@@ -1,5 +1,5 @@
 {
-  "name": "E-COMMERCE",
+  "name": "ecommerce",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -13,17 +13,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shantannuu/E-COMMERCE.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/shantannuu/E-COMMERCE/issues"
-  },
-  "homepage": "https://github.com/shantannuu/E-COMMERCE#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.25.0",
@@ -34,6 +26,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.18"
+    "mongoose": "^5.11.18",
+    "nodemon": "^2.0.7"
   }
 }

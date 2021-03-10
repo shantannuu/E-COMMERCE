@@ -36,9 +36,9 @@ mongoose.connect(URI, {
     console.log('Connected to MongoDB')
 })
 
-app.get('/', (req, res) => {
-    res.json({ msg: "welcome To My Website" })
-})
+// app.get('/', (req, res) => {
+//     res.json({ msg: "welcome To My Website" })
+// })
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
