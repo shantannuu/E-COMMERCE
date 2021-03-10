@@ -1,7 +1,9 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import axios from 'axios';
 import { GlobalState } from '../../../GlobalState'
 import Loading from '../utils/loading/Loading'
+import { useHistory, useParams } from 'react-router-dom'
+import { set } from 'mongoose';
 
 const initialState = {
     product_id: '',
@@ -9,7 +11,8 @@ const initialState = {
     price: 0,
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, nihil minus id harum omnis totam similique veniam. Quia, maxime ducimus.',
     content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, nihil minus id harum omnis totam similique veniam. Quia, maxime ducimus.',
-    category: ''
+    category: '',
+    _id: ''
 }
 
 function CreateProduct() {
@@ -21,6 +24,27 @@ function CreateProduct() {
     console.log(product.description)
     const [isAdmin] = state.userAPI.isAdmin;
     const [token] = state.token
+    const history = useHistory()
+    const param = useParams()
+    const [onEdit, setOnEdit] = useState(false)
+    const [products] = state.productsAPI.products;
+    const [callback, setCallBack] = state.productsAPI.callback
+
+    useEffect(() => {
+        if (param.id) {
+            setOnEdit(true)
+            products.forEach(product => {
+                if (product._id === param.id) {
+                    setProduct(product)
+                    setImages(product.images)
+                }
+            });
+        } else {
+            setOnEdit(false)
+            setProduct(initialState)
+            setImages(false)
+        }
+    }, [param.id, products])
 
     const handleUpload = async e => {
         e.preventDefault();
@@ -69,6 +93,35 @@ function CreateProduct() {
     }
 
 
+    const handleChangeInput = (e) => {
+        const { name, value } = e.target
+        setProduct({ ...product, [name]: value })
+        console.log({ ...product, [name]: value })
+    }
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        try {
+            if (!isAdmin) return alert("you are not admin")
+            if (!images) return alert("No image upload")
+            if (onEdit) {
+                await axios.put(`/api/products/${product._id}`, { ...product, images }, {
+                    headers: { Authentication: token }
+                })
+            } else {
+                await axios.post('/api/products', { ...product, images }, {
+                    headers: { Authentication: token }
+                })
+            }
+            setCallBack(!callback)
+
+
+            history.push("/")
+        } catch (err) {
+            alert(err.response.data.msg)
+        }
+    }
+
     const styleUpload = {
         display: images ? "block" : "none"
     }
@@ -88,30 +141,30 @@ function CreateProduct() {
 
             </div>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="row">
                     <label htmlFor="product_id">Product ID</label>
-                    <input type="text" name="product_id" id="porduct_id" required value={product.product_id} />
+                    <input type="text" name="product_id" id="porduct_id" required value={product.product_id} onChange={handleChangeInput} disabled={onEdit} />
                 </div>
                 <div className="row">
                     <label htmlFor="title">Title</label>
-                    <input type="text" name="title" id="title" required value={product.title} />
+                    <input type="text" name="title" id="title" required value={product.title} onChange={handleChangeInput} />
                 </div>
                 <div className="row">
                     <label htmlFor="price">Price</label>
-                    <input type="number" name="price" id="price" required value={product.price} />
+                    <input type="number" name="price" id="price" required value={product.price} onChange={handleChangeInput} />
                 </div>
                 <div className="row">
                     <label htmlFor="description">Description</label>
-                    <textarea type="text" name="description" id="description" required value={product.description} row="5" />
+                    <textarea type="text" name="description" id="description" required value={product.description} row="5" onChange={handleChangeInput} />
                 </div>
                 <div className="row">
                     <label htmlFor="content">Content</label>
-                    <textarea type="text" name="content" id="content" required value={product.content} row="7" />
+                    <textarea type="text" name="content" id="content" required value={product.content} row="7" onChange={handleChangeInput} />
                 </div>
                 <div className="row">
                     <label htmlFor="categories">Categories : </label>
-                    <select name="categories" value={product.category}>
+                    <select name="category" value={product.category} onChange={handleChangeInput}>
                         <option value="">Please Select a category</option>
                         {
                             categories.map(category => (
@@ -122,7 +175,7 @@ function CreateProduct() {
                         }
                     </select>
                 </div>
-                <button type="submit">Create</button>
+                <button type="submit">{onEdit ? "Update" : "Create"}</button>
             </form>
         </div>
     )
